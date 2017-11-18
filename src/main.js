@@ -18,6 +18,7 @@ const api = new Vue({
     user: {
       login: 'test',
     },
+    rates: [],
   },
   methods: {
     login: (login, password) => {
@@ -30,6 +31,23 @@ const api = new Vue({
           api.user = u;
           console.log(u);
         });
+    },
+    updateRates: () => {
+      $.get(`${api.serverURL}/rates`,
+        {
+          token: api.user.token,
+        })
+        .done((res) => { api.rates = res; })
+      ;
+    },
+    updateWallet: () => {
+      $.get(`${api.serverURL}/wallet`,
+        {
+          token: api.user.token,
+          user_id: api.user.id,
+        })
+        .done((res) => { api.wallet = res; })
+      ;
     },
   },
 });
