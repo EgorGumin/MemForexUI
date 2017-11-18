@@ -6,7 +6,7 @@
       app
     >
       <v-list dense>
-        <v-list-tile @click="">
+        <v-list-tile @click="page = 'login'">
           <v-list-tile-action>
             <v-icon>home</v-icon>
           </v-list-tile-action>
@@ -14,7 +14,7 @@
             <v-list-tile-title>Вход</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="">
+        <v-list-tile @click="page = 'rates'">
           <v-list-tile-action>
             <v-icon>contact_mail</v-icon>
           </v-list-tile-action>
@@ -32,9 +32,8 @@
       <v-container fluid fill-height>
         <v-layout
         >
-          <hello></hello>
-          {{$api.user}}
-          <v-btn color="primary" @click="$api.login('admin', 'admin')">Войти</v-btn>
+          <hello v-if="page==='rates'"></hello>
+          <login v-if="page==='login'"></login>
         </v-layout>
       </v-container>
     </v-content>
@@ -43,13 +42,15 @@
 
 <script>
   import Hello from './components/Hello';
+  import Login from './components/Login';
 
   export default {
     data: () => ({
       drawer: true,
+      page: 'rates',
     }),
     components: {
-      Hello,
+      Hello, Login,
     },
     props: {
       source: String,
