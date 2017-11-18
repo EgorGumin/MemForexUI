@@ -34,6 +34,7 @@
         >
           <hello v-if="page==='rates'"></hello>
           <login v-if="page==='login'"></login>
+          <!--<random-chart></random-chart>-->
         </v-layout>
       </v-container>
     </v-content>
@@ -43,6 +44,7 @@
 <script>
   import Hello from './components/Hello';
   import Login from './components/Login';
+  import RandomChart from './components/RandomChart';
 
   export default {
     data: () => ({
@@ -50,7 +52,7 @@
       page: 'rates',
     }),
     components: {
-      Hello, Login,
+      Hello, Login, RandomChart,
     },
     props: {
       source: String,

@@ -1,8 +1,7 @@
 <template>
   <v-container grid-list-md>
-    <v-layout>
-
-      <v-flex xs12 sm6>
+    <v-layout row wrap>
+      <v-flex sm6>
         <v-card>
           <v-toolbar>
             <v-toolbar-title>Котировки</v-toolbar-title>
@@ -18,7 +17,7 @@
           </v-list>
         </v-card>
       </v-flex>
-      <v-flex xs12 sm6>
+      <v-flex sm6>
         <v-card>
           <v-toolbar>
             <v-toolbar-title>Мой кошелек</v-toolbar-title>
@@ -34,13 +33,26 @@
           </v-list>
         </v-card>
       </v-flex>
+
+      <v-flex sm6>
+        <v-card>
+          <!--<random-chart></random-chart>-->
+          <line-chart :chart-data="$api.chartRates"></line-chart>
+        </v-card>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+  import RandomChart from './RandomChart';
+  import LineChart from '../LineChart';
+
   export default {
     name: 'hello',
+    components: {
+      RandomChart, LineChart,
+    },
     data() {
       return {
         msg: 'Welcome to Your Vue.js App',
@@ -48,6 +60,7 @@
     },
     mounted() {
       setInterval(this.$api.updateRates(), 1000);
+      setInterval(this.$api.updateChartRates(), 1000);
       setInterval(this.$api.updateWallet(), 1000);
     },
   };

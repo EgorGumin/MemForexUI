@@ -3,6 +3,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import $ from 'jquery';
+import randomColor from 'randomcolor';
 
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.css';
@@ -20,6 +21,24 @@ const api = new Vue({
       login: 'test',
     },
     rates: [],
+    chartRates: {
+      labels: [],
+      datasets: [],
+    },
+    datacollection: {
+      labels: ['1', '2'],
+      datasets: [
+        {
+          label: 'Data One',
+          backgroundColor: randomColor(),
+          data: [1, 1],
+        }, {
+          label: 'Data One',
+          backgroundColor: randomColor(),
+          data: [2, 3],
+        },
+      ],
+    },
   },
   methods: {
     login: (login, password) => {
@@ -53,7 +72,19 @@ const api = new Vue({
         {
           token: api.user.token,
         })
-        .done((res) => { api.rates = res; })
+        .done((res) => {
+          api.rates = res;
+        })
+      ;
+    },
+    updateChartRates: () => {
+      $.get(`${api.serverURL}/rates/all`,
+        {
+          token: api.user.token,
+        })
+        .done((res) => {
+          api.chartRates = res;
+        })
       ;
     },
     updateWallet: () => {
@@ -62,7 +93,9 @@ const api = new Vue({
           token: api.user.token,
           user_id: api.user.id,
         })
-        .done((res) => { api.wallet = res; })
+        .done((res) => {
+          api.wallet = res;
+        })
       ;
     },
   },
