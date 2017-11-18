@@ -1,0 +1,9 @@
+{
+  "db": {
+    "host": "91.225.131.163",
+    "port": 5432,
+    "database": "hackathondb",
+    "user": "hackathon",
+    "password": ""
+  }
+}
