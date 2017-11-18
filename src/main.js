@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style,object-shorthand,prefer-template,quotes */
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
@@ -30,6 +31,21 @@ const api = new Vue({
         (u) => {
           api.user = u;
           console.log(u);
+        });
+    },
+    pay: (fromTagId, toTagId, quantity, userId, token) => {
+      $.post(`${api.serverURL}/pay`,
+        {
+          from_tag_id: fromTagId,
+          to_tag_id: toTagId,
+          quantity: quantity,
+          user_id: userId,
+          token: token,
+        },
+        () => {
+          console.log('Done post pay');
+        }).fail((xhr) => {
+          console.log('Fail' + xhr.status);
         });
     },
     updateRates: () => {
