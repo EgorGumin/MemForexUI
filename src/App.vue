@@ -31,12 +31,10 @@
     <v-content>
       <v-container fluid fill-height>
         <v-layout
-          justify-center
-          align-center
         >
-          <v-tooltip right>
-
-          </v-tooltip>
+          <hello></hello>
+          {{$api.user}}
+          <v-btn color="primary" @click="$api.login('admin', 'admin')">Войти</v-btn>
         </v-layout>
       </v-container>
     </v-content>
@@ -44,10 +42,15 @@
 </template>
 
 <script>
+  import Hello from './components/Hello';
+
   export default {
     data: () => ({
       drawer: true,
     }),
+    components: {
+      Hello,
+    },
     props: {
       source: String,
     },
