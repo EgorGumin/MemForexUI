@@ -29,7 +29,7 @@
       <v-toolbar-title>MemForex</v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fluid fill-height>
+      <v-container fluid>
         <v-layout
         >
           <hello v-if="page==='rates'"></hello>
