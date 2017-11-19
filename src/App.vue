@@ -22,6 +22,14 @@
             <v-list-tile-title>Котировки</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile @click="page = 'buy'">
+          <v-list-tile-action>
+            <v-icon>contact_mail</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Покупка</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
@@ -34,6 +42,7 @@
         >
           <hello v-if="page==='rates'"></hello>
           <login v-if="page==='login'"></login>
+          <buy v-if="page==='buy'"></buy>
           <!--<random-chart></random-chart>-->
         </v-layout>
       </v-container>
@@ -44,7 +53,7 @@
 <script>
   import Hello from './components/Hello';
   import Login from './components/Login';
-  import RandomChart from './components/RandomChart';
+  import Buy from './components/Buy';
 
   export default {
     data: () => ({
@@ -52,7 +61,7 @@
       page: 'rates',
     }),
     components: {
-      Hello, Login, RandomChart,
+      Hello, Login, Buy,
     },
     props: {
       source: String,

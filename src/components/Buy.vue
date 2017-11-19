@@ -4,17 +4,37 @@
       <v-flex sm6>
         <v-card>
           <v-toolbar>
-            <v-toolbar-title>Котировки</v-toolbar-title>
+            <v-toolbar-title>Покупка</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-list>
-            <v-list-tile v-for="rate in $api.rates" v-bind:key="rate.id" @click="">
-              <v-list-tile-content>
-                <v-list-tile-title v-text="rate.alias"></v-list-tile-title>
-                <v-list-tile-title v-text="rate.rateRelative"></v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
+
+          <v-card-text>
+            <v-layout row>
+              <v-flex xs6>
+                <v-select
+                  v-bind:items="$api.ratesSelect"
+                  v-model="from"
+                  label="Select"
+                  single-line
+                  bottom
+                ></v-select>
+              </v-flex>
+              <v-flex xs6>
+                <v-select
+                  v-bind:items="$api.ratesSelect"
+                  v-model="to"
+                  label="Select"
+                  single-line
+                  bottom
+                ></v-select>
+              </v-flex>
+
+            </v-layout>
+            <v-text-field label="Обменять" v-model="sell"></v-text-field>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn flat color="orange" @click="$api.pay(from.id, to.id, sell)">Купить</v-btn>
+          </v-card-actions>
         </v-card>
       </v-flex>
       <v-flex sm6>
@@ -36,7 +56,6 @@
 
       <v-flex sm6>
         <v-card>
-          <!--<random-chart></random-chart>-->
           <line-chart :chart-data="$api.chartRates"></line-chart>
         </v-card>
       </v-flex>
@@ -45,18 +64,23 @@
 </template>
 
 <script>
-  import RandomChart from './RandomChart';
   import LineChart from '../LineChart';
 
   export default {
-    name: 'hello',
+    name: 'buy',
     components: {
-      RandomChart, LineChart,
+      LineChart,
     },
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App',
+        sell: 0,
+        to: {},
+        from: {},
       };
+    },
+    methods: {
+      updateData() {
+      },
     },
     mounted() {
       this.$api.updateWallet();

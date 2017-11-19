@@ -20,6 +20,7 @@ const api = new Vue({
     user: {
       login: 'test',
     },
+    wallet: [],
     rates: [],
     chartRates: {
       labels: [],
@@ -49,20 +50,22 @@ const api = new Vue({
         },
         (u) => {
           api.user = u;
-          console.log(u);
+          api.updateRates();
+          api.updateChartRates();
+          api.updateWallet();
         });
     },
-    pay: (fromTagId, toTagId, quantity, userId, token) => {
+    pay: (fromTagId, toTagId, quantity) => {
       $.post(`${api.serverURL}/pay`,
         {
           from_tag_id: fromTagId,
           to_tag_id: toTagId,
           quantity: quantity,
-          user_id: userId,
-          token: token,
+          user_id: api.user.id,
+          token: api.user.token,
         },
         () => {
-          console.log('Done post pay');
+          api.updateWallet();
         }).fail((xhr) => {
           console.log('Fail' + xhr.status);
         });
@@ -74,6 +77,7 @@ const api = new Vue({
         })
         .done((res) => {
           api.rates = res;
+          api.ratesSelect = res.map(el => ({ text: el.alias, value: el }));
         })
       ;
     },
@@ -84,8 +88,7 @@ const api = new Vue({
         })
         .done((res) => {
           api.chartRates = res;
-        })
-      ;
+        });
     },
     updateWallet: () => {
       $.get(`${api.serverURL}/wallet`,
@@ -94,9 +97,9 @@ const api = new Vue({
           user_id: api.user.id,
         })
         .done((res) => {
+          api.wallet.push({});
           api.wallet = res;
-        })
-      ;
+        });
     },
   },
 });
@@ -117,4 +120,8 @@ new Vue({
   el: '#app',
   template: '<App/>',
   components: { App },
+  mounted() {
+    setInterval(this.$api.updateRates, 30000);
+    setInterval(this.$api.updateChartRates, 30000);
+  },
 });
