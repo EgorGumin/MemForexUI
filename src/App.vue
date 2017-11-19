@@ -1,22 +1,24 @@
 <template>
   <v-app id="app">
+    <login-page v-if="!$api.user.token"></login-page>
+    <div v-if="$api.user.token">
     <v-navigation-drawer
       fixed
       v-model="drawer"
       app
-    >
+      dark
+    ><v-toolbar color="transparent">
+      <v-avatar
+      >
+        <img src="https://crowdfund.me.me/static/logo.png" alt="avatar">
+      </v-avatar>
+      <v-toolbar-title>MemForex</v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-toolbar>
       <v-list dense>
-        <v-list-tile @click="page = 'login'">
-          <v-list-tile-action>
-            <v-icon>home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Вход</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
         <v-list-tile @click="page = 'rates'">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>insert_chart</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Котировки</v-list-tile-title>
@@ -24,7 +26,7 @@
         </v-list-tile>
         <v-list-tile @click="page = 'buy'">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>work</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Покупка</v-list-tile-title>
@@ -32,17 +34,17 @@
         </v-list-tile>
         <v-list-tile @click="page = 'history'">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>lightbulb_outline</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>История сделок</v-list-tile-title>
+            <v-list-tile-title>Анализ сделок</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>MemForex</v-toolbar-title>
+      <v-toolbar-title></v-toolbar-title>
     </v-toolbar>
     <v-content>
       <v-container fluid>
@@ -56,6 +58,7 @@
         </v-layout>
       </v-container>
     </v-content>
+    </div>
   </v-app>
 </template>
 
@@ -64,6 +67,7 @@
   import Login from './components/Login';
   import Buy from './components/Buy';
   import History from './components/History';
+  import LoginPage from './components/LoginPage';
 
   export default {
     data: () => ({
@@ -71,7 +75,7 @@
       page: 'rates',
     }),
     components: {
-      Hello, Login, Buy, History,
+      Hello, Login, Buy, History, LoginPage,
     },
     props: {
       source: String,

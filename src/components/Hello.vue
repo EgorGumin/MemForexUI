@@ -4,6 +4,7 @@
       <v-flex sm6>
         <v-card>
           <v-toolbar>
+            <v-icon>insert_chart</v-icon>
             <v-toolbar-title>Котировки</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
@@ -21,6 +22,7 @@
       <v-flex sm6>
         <v-card>
           <v-toolbar>
+            <v-icon>attach_money</v-icon>
             <v-toolbar-title>Мой кошелек</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
@@ -38,6 +40,7 @@
       <v-flex sm12>
         <v-card>
           <v-toolbar>
+            <v-icon>trending_up</v-icon>
             <v-toolbar-title>Динамика изменения</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
