@@ -40,6 +40,14 @@
             <v-list-tile-title>Анализ сделок</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile @click="page = 'trends'">
+          <v-list-tile-action>
+            <v-icon>timeline</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Тренды</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
@@ -54,6 +62,7 @@
           <login v-if="page==='login'"></login>
           <buy v-if="page==='buy'"></buy>
           <history v-if="page==='history'"></history>
+          <trends v-if="page==='trends'"></trends>
           <!--<random-chart></random-chart>-->
         </v-layout>
       </v-container>
@@ -68,6 +77,7 @@
   import Buy from './components/Buy';
   import History from './components/History';
   import LoginPage from './components/LoginPage';
+  import Trends from './components/Trends';
 
   export default {
     data: () => ({
@@ -75,7 +85,7 @@
       page: 'rates',
     }),
     components: {
-      Hello, Login, Buy, History, LoginPage,
+      Hello, Login, Buy, History, LoginPage, Trends,
     },
     props: {
       source: String,
