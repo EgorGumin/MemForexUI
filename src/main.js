@@ -1,4 +1,4 @@
-/* eslint-disable linebreak-style,object-shorthand,prefer-template,quotes */
+/* eslint-disable linebreak-style,object-shorthand,prefer-template,quotes,no-param-reassign */
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
@@ -26,6 +26,7 @@ const api = new Vue({
       labels: [],
       datasets: [],
     },
+    colors: [],
     datacollection: {
       labels: ['1', '2'],
       datasets: [
@@ -76,8 +77,10 @@ const api = new Vue({
           token: api.user.token,
         })
         .done((res) => {
+          if (api.rates.length === 0) {
+            api.ratesSelect = res.map(el => ({ text: el.alias, value: el }));
+          }
           api.rates = res;
-          api.ratesSelect = res.map(el => ({ text: el.alias, value: el }));
         })
       ;
     },
@@ -87,6 +90,22 @@ const api = new Vue({
           token: api.user.token,
         })
         .done((res) => {
+          if (api.chartRates.labels.length === 0) {
+            for (let i = 0; i < res.datasets.length; i += 1) {
+              api.colors.push(randomColor({
+                luminosity: 'light',
+                alpha: 0.7, // e.g. 'rgba(9, 1, 107, 0.5)',
+              }));
+            }
+          }
+          res.datasets = res.datasets.map((set, i) => {
+            set.borderColor = api.colors[i];
+            set.backgroundColor = api.colors[i];
+            set.pointBackgroundColor = api.colors[i];
+            set.fill = false;
+            return set;
+          });
+          res.labels = res.labels.map(label => label.substring(10, 19));
           api.chartRates = res;
         });
     },

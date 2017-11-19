@@ -9,11 +9,12 @@
           </v-toolbar>
           <v-list>
             <v-list-tile v-for="rate in $api.rates" v-bind:key="rate.id" @click="">
-              <v-list-tile-content>
-                <v-list-tile-title v-text="rate.alias"></v-list-tile-title>
-                <v-list-tile-title v-text="rate.rateRelative"></v-list-tile-title>
-              </v-list-tile-content>
+                <v-layout row justify-space-between>
+                  <div>{{rate.alias}}</div>
+                  <div>{{rate.rateRelative.toFixed(2)}}</div>
+                </v-layout>
             </v-list-tile>
+
           </v-list>
         </v-card>
       </v-flex>
@@ -25,19 +26,26 @@
           </v-toolbar>
           <v-list>
             <v-list-tile v-for="curr in $api.wallet" v-bind:key="curr.tagid" @click="">
-              <v-list-tile-content>
-                <v-list-tile-title v-text="curr.alias"></v-list-tile-title>
-                <v-list-tile-title v-text="curr.quantity"></v-list-tile-title>
-              </v-list-tile-content>
+              <v-layout row justify-space-between>
+                <div>{{curr.alias}}</div>
+                <div>{{curr.quantity.toFixed(3)}}</div>
+              </v-layout>
             </v-list-tile>
           </v-list>
         </v-card>
       </v-flex>
 
-      <v-flex sm6>
+      <v-flex sm12>
         <v-card>
-          <!--<random-chart></random-chart>-->
-          <line-chart :chart-data="$api.chartRates"></line-chart>
+          <v-toolbar>
+            <v-toolbar-title>Динамика изменения</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-flex>
+            <div class="small">
+              <line-chart :chart-data="$api.chartRates"></line-chart>
+            </div>
+          </v-flex>
         </v-card>
       </v-flex>
     </v-layout>
@@ -63,3 +71,10 @@
     },
   };
 </script>
+
+<style>
+  .small {
+    width: 100%;
+    max-height: 400px;
+  }
+</style>

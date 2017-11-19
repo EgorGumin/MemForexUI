@@ -1,14 +1,14 @@
 <template>
   <v-container grid-list-md>
     <v-layout row wrap>
-      <v-flex sm6>
+      <v-flex>
         <v-card>
           <v-toolbar>
             <v-toolbar-title>Покупка</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
 
-          <v-card-text>
+          <v-card-text sm6>
             <v-layout row>
               <v-flex xs6>
                 <v-select
@@ -45,18 +45,26 @@
           </v-toolbar>
           <v-list>
             <v-list-tile v-for="curr in $api.wallet" v-bind:key="curr.tagid" @click="">
-              <v-list-tile-content>
-                <v-list-tile-title v-text="curr.alias"></v-list-tile-title>
-                <v-list-tile-title v-text="curr.quantity"></v-list-tile-title>
-              </v-list-tile-content>
+              <v-layout row justify-space-between>
+                <div>{{curr.alias}}</div>
+                <div>{{curr.quantity.toFixed(3)}}</div>
+              </v-layout>
             </v-list-tile>
           </v-list>
         </v-card>
       </v-flex>
 
-      <v-flex sm6>
+      <v-flex sm12>
         <v-card>
-          <line-chart :chart-data="$api.chartRates"></line-chart>
+          <v-toolbar>
+            <v-toolbar-title>Динамика изменения</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-flex>
+            <div class="small">
+              <line-chart :chart-data="$api.chartRates"></line-chart>
+            </div>
+          </v-flex>
         </v-card>
       </v-flex>
     </v-layout>
@@ -87,3 +95,10 @@
     },
   };
 </script>
+
+<style>
+  .small {
+    width: 100%;
+    max-height: 400px;
+  }
+</style>

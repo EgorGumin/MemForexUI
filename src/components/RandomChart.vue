@@ -32,7 +32,7 @@
             }, {
               label: 'Data One',
               backgroundColor: '#f87979',
-              data: [2, 3],
+              data: [this.getRandomInt(), this.getRandomInt()],
             },
           ],
         };
@@ -44,11 +44,11 @@
             {
               label: 'Data One',
               backgroundColor: '#f87979',
-              data: [1, 1, 1],
+              data: [this.getRandomInt(), this.getRandomInt(), 12],
             }, {
               label: 'Data One',
               backgroundColor: '#f87979',
-              data: [2, 3, 5],
+              data: [this.getRandomInt(), this.getRandomInt(), 15],
             },
           ],
         };
@@ -60,3 +60,9 @@
   };
 </script>
 
+<style>
+  .small {
+    max-width: 600px;
+    margin:  150px auto;
+  }
+</style>
