@@ -78,6 +78,6 @@
 <style>
   .small {
     width: 100%;
-    max-height: 400px;
+    height: 100%;
   }
 </style>

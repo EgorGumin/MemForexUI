@@ -10,7 +10,7 @@
 
         <v-flex class="pa-4">
 
-          <v-form v-model="valid" ref="form">
+          <v-form ref="form">
 
             <v-text-field
               label="Имя пользователя"
