@@ -10,10 +10,10 @@
           </v-toolbar>
           <v-list>
             <v-list-tile v-for="rate in $api.rates" v-bind:key="rate.id" @click="">
-                <v-layout row justify-space-between>
-                  <div>{{rate.alias}}</div>
-                  <div>{{rate.rateRelative.toFixed(2)}}</div>
-                </v-layout>
+              <v-layout row justify-space-between>
+                <div>{{rate.alias}}</div>
+                <div>{{rate.rateRelative.toFixed(2)}}</div>
+              </v-layout>
             </v-list-tile>
 
           </v-list>
