@@ -2,6 +2,13 @@
   <v-container grid-list-md>
     <v-layout row wrap>
       <v-flex>
+        <v-snackbar
+          :color="transaction.messageCode === -1 ? 'success' : 'error'"
+          v-model="transaction.showStatus"
+        >
+          {{transaction.messages[transaction.messageCode]}}
+          <v-btn dark flat @click.native="transaction.showStatus = false">Закрыть</v-btn>
+        </v-snackbar>
         <v-card>
           <v-toolbar>
             <v-icon>gavel</v-icon>
@@ -34,7 +41,7 @@
             <v-text-field label="Обменять" v-model="sell"></v-text-field>
           </v-card-text>
           <v-card-actions>
-            <v-btn flat color="orange" @click="$api.pay(from.id, to.id, sell)">Купить</v-btn>
+            <v-btn flat color="primary" @click="pay(from.id, to.id, sell)">Купить</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -56,7 +63,7 @@
         </v-card>
       </v-flex>
 
-      <v-flex sm12>
+      <v-flex xs12>
         <v-card>
           <v-toolbar>
             <v-icon>trending_up</v-icon>
@@ -75,6 +82,7 @@
 </template>
 
 <script>
+  import $ from 'jquery';
   import LineChart from '../LineChart';
 
   export default {
@@ -87,10 +95,38 @@
         sell: 0,
         to: {},
         from: {},
+        transaction: {
+          showStatus: false,
+          messageCode: -1,
+          messages: {
+            '-1': 'Все куплено',
+            0: 'Покупка отменена',
+          },
+        },
       };
     },
     methods: {
-      updateData() {
+      pay(fromTagId, toTagId, quantity) {
+        const api = this.$api;
+        $.post(`${api.serverURL}/pay`,
+          {
+            from_tag_id: fromTagId,
+            to_tag_id: toTagId,
+            quantity,
+            user_id: api.user.id,
+            token: api.user.token,
+          })
+          .done(() => {
+            api.updateWallet();
+            this.transaction.messageCode = -1;
+            this.sell = 0;
+          })
+          .fail(() => {
+            this.transaction.messageCode = 0;
+          })
+          .always(() => {
+            this.transaction.showStatus = true;
+          });
       },
     },
     mounted() {

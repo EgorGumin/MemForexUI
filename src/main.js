@@ -29,21 +29,6 @@ const api = new Vue({
     colors: [],
   },
   methods: {
-    pay: (fromTagId, toTagId, quantity) => {
-      $.post(`${api.serverURL}/pay`,
-        {
-          from_tag_id: fromTagId,
-          to_tag_id: toTagId,
-          quantity: quantity,
-          user_id: api.user.id,
-          token: api.user.token,
-        },
-        () => {
-          api.updateWallet();
-        }).fail((xhr) => {
-          console.log('Fail' + xhr.status);
-        });
-    },
     updateRates: () => {
       $.get(`${api.serverURL}/rates`,
         {
@@ -85,7 +70,7 @@ const api = new Vue({
             set.backgroundColor = api.colors[i];
             set.pointBackgroundColor = api.colors[i];
             set.fill = false;
-            if (length > MAX_POINTS) {
+            if (set.data.length > MAX_POINTS) {
               set.data = set.data.slice(0, MAX_POINTS);
             }
             return set;
