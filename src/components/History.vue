@@ -24,7 +24,7 @@ export default {
   name: 'history',
   data() {
     return {
-      history: [{ quantityto: 11 }],
+      history: [],
       headers: [
         { text: 'Успешная сделка', align: 'left', sortable: false },
         { text: 'Покупка', align: 'left' },
