@@ -16,7 +16,7 @@ Vue.config.productionTip = false;
 
 const api = new Vue({
   data: {
-    serverURL: 'http://91.225.131.163',
+    serverURL: 'localhost:8999',
     user: {
       login: 'test',
     },
@@ -27,35 +27,8 @@ const api = new Vue({
       datasets: [],
     },
     colors: [],
-    datacollection: {
-      labels: ['1', '2'],
-      datasets: [
-        {
-          label: 'Data One',
-          backgroundColor: randomColor(),
-          data: [1, 1],
-        }, {
-          label: 'Data One',
-          backgroundColor: randomColor(),
-          data: [2, 3],
-        },
-      ],
-    },
   },
   methods: {
-    login: (login, password) => {
-      $.post(`${api.serverURL}/login`,
-        {
-          login,
-          password,
-        },
-        (u) => {
-          api.user = u;
-          api.updateRates();
-          api.updateChartRates();
-          api.updateWallet();
-        });
-    },
     pay: (fromTagId, toTagId, quantity) => {
       $.post(`${api.serverURL}/pay`,
         {
@@ -90,23 +63,34 @@ const api = new Vue({
           token: api.user.token,
         })
         .done((res) => {
+          // Generate random colors for labels once
           if (api.chartRates.labels.length === 0) {
             for (let i = 0; i < res.datasets.length; i += 1) {
               api.colors.push(randomColor({
                 luminosity: 'light',
-                alpha: 0.7, // e.g. 'rgba(9, 1, 107, 0.5)',
+                alpha: 0.7,
               }));
             }
           }
-          res.datasets = res.datasets.map((set, i) => {
+          const MAX_POINTS = 100;
+          const length = res.labels.length > MAX_POINTS ? MAX_POINTS : res.labels.length;
+          const labels = [];
+
+          for (let i = 0; i < length; i++) {
+            labels.push(res.labels[i].substring(10, 19));
+          }
+
+          const datasets = res.datasets.map((set, i) => {
             set.borderColor = api.colors[i];
             set.backgroundColor = api.colors[i];
             set.pointBackgroundColor = api.colors[i];
             set.fill = false;
+            if (length > MAX_POINTS) {
+              set.data = set.data.slice(0, MAX_POINTS);
+            }
             return set;
           });
-          res.labels = res.labels.map(label => label.substring(10, 19));
-          api.chartRates = res;
+          api.chartRates = { labels, datasets };
         });
     },
     updateWallet: () => {
